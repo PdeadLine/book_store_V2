@@ -87,12 +87,14 @@ public class BaseDao<T> {
 		List<Object> params = new ArrayList<Object>();
 		Object prikey ="";
 		for(Field f :fs){
+			//判断该属性是否为主键（即查询条件）
 			f.setAccessible(true);
 			if(!f.isAnnotationPresent(Id.class)){
 				params.add(f.get(bean));
 			}
 			prikey=f.get(bean);
 		}
+		//最后添加查询条件，即主键
 		params.add(prikey);
 		System.out.println(sql);
 		//执行之
@@ -130,6 +132,9 @@ public class BaseDao<T> {
 		return t;
 	}
 	public List<T> findAll(){
+		
+		
+		
 		return null;
 	}
 		
