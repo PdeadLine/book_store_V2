@@ -28,5 +28,13 @@ public class UserDao extends BaseDao<User>{
 			}
 		}
 		
+		public User load(String uid){
+			try {
+				return super.load(uid);
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+		
 	}
 

@@ -1,5 +1,7 @@
 package com.github.bookstore.user.test;
 
+import java.sql.SQLException;
+
 import org.junit.Test;
 
 
@@ -7,22 +9,11 @@ public class Demo01 {
 	private User user = new User();
 	private UserDao userDao = new UserDao();
 	@Test
-	public void fun1(){
+	public void fun1() throws SQLException{
 		
+		user.setId("789");
+
 		
-//		user.setId("10000");
-//		user.setPassword("9527");
-//		user.setUsername("zhangsan");
-//		
-//		
-//		userDao.addUser(user);
-		
-/*		user.setUsername("lisi");
-		user.setPassword("10086");
-		userDao.updatUser(user);
-		*/
-	
-		userDao.deleteById("10000");
-		
+		System.out.println(userDao.load(user.getId()));
 	}
 }

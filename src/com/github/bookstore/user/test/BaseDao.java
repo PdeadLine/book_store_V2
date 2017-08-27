@@ -1,14 +1,16 @@
 package com.github.bookstore.user.test;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.MapHandler;
 
+import com.github.commonutils.CommonUtils;
 import com.github.jdbcUtils.TxQueryRunner;
 
 public class BaseDao<T> {
@@ -108,8 +110,24 @@ public class BaseDao<T> {
 	}
 	
 	
-	public T load(String uuid){
-		return null;
+	public T load(String uuid) throws SQLException, IllegalArgumentException, IllegalAccessException, InstantiationException{
+		String sql = "select * from "+beanClass.getSimpleName()+" where "
+				+priKey+"=?";
+		/**
+		 * 因为表字段和bean属性名不对应，需要特殊处理
+		 */
+		//bean对象实例化
+		T t = beanClass.newInstance();
+		//查询返回一个map对象
+		Map<String, Object> map =qr.query(sql, new MapHandler(),uuid);
+		//将map对象封装到bean对象中！
+		for(Object o : map.keySet()){
+			for(Field f : fs){
+				f.setAccessible(true);
+				f.set(t, map.get(o));
+			}
+		}
+		return t;
 	}
 	public List<T> findAll(){
 		return null;
