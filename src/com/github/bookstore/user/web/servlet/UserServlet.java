@@ -40,8 +40,7 @@ public class UserServlet extends BaseServlet {
 			 * 保存用户信息到session中， 然后重定向到index.jsp 
 			 */
 			User form = CommonUtils.toBean(req.getParameterMap(), User.class);
-			System.out.println(form);
-			
+						
 			try {
 				User user=userService.login(form);
 				req.getSession().setAttribute("session_user", user);
